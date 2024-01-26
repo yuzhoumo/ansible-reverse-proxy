@@ -1,9 +1,4 @@
 ---
-- name: Create regular user group
-  group:
-    name: "{{ user }}"
-    state: present
-
 - name: Configure /etc/doas.conf
   copy:
     dest: /etc/doas.conf
@@ -11,6 +6,11 @@
     owner: root
     group: wheel
     mode: 0644
+
+- name: Create regular user group
+  group:
+    name: "{{ user }}"
+    state: present
 
 - name: Create regular user with doas privileges
   user:
@@ -44,7 +44,7 @@
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?PermitRootLogin'
-    line: 'PermitRootLogin prohibit-password'
+    line: 'PermitRootLogin no'
   notify:
     - restart sshd
 
