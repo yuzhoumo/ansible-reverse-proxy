@@ -1,0 +1,6 @@
+---
+- name: Run common system tasks for OpenBSD
+  import_tasks: system.yml
+
+- name: Run common security tasks for OpenBSD
+  import_tasks: security.yml

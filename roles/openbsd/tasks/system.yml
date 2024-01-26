@@ -1,0 +1,36 @@
+---
+- name: Set timezone
+  timezone:
+    name: "{{ tmzone }}"
+  notify:
+    - restart cron
+
+- name: Apply all available system patches
+  command: syspatch
+  register: syspatch
+  failed_when: syspatch.rc != 0 and syspatch.rc != 2
+  changed_when: syspatch.rc == 0
+
+- name: Update all packages
+  command: pkg_add -u
+
+- name: Reboot the server if needed
+  reboot:
+    msg: Server reboot triggered by syspatch updates
+    connect_timeout: 5
+    reboot_timeout: 600
+    pre_reboot_delay: 0
+    post_reboot_delay: 15
+    test_command: whoami
+  when: syspatch.rc == 0
+
+- name: Install a base set of software packages
+  openbsd_pkg:
+    name:
+      - curl
+      - git
+      - htop
+      - pwgen
+      - rsync--
+      - vim--no_x11
+    state: present

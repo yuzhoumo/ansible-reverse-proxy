@@ -1,0 +1,6 @@
+# Initial server setup
+---
+- hosts: sepulveda
+  become: true
+  roles:
+  - role: openbsd
