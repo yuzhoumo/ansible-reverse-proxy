@@ -1,18 +1,18 @@
 ---
 - name: Set timezone
-  timezone:
+  community.general.timezone:
     name: "{{ tmzone }}"
   notify:
     - restart cron
 
 - name: Apply all available system patches
-  command: syspatch
+  ansible.builtin.command: syspatch
   register: syspatch
   failed_when: syspatch.rc != 0 and syspatch.rc != 2
   changed_when: syspatch.rc == 0
 
 - name: Reboot the server if needed
-  reboot:
+  ansible.builtin.reboot:
     msg: Server reboot triggered by syspatch updates
     connect_timeout: 5
     reboot_timeout: 600
@@ -22,10 +22,10 @@
   when: syspatch.rc == 0
 
 - name: Update all packages
-  command: pkg_add -u
+  ansible.builtin.command: pkg_add -u
 
 - name: Install a base set of software packages
-  openbsd_pkg:
+  community.general.openbsd_pkg:
     name:
       - curl
       - git

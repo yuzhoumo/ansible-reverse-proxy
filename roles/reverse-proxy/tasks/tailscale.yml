@@ -1,0 +1,20 @@
+---
+- name: Install tailscale
+  community.general.openbsd_pkg:
+    name: tailscale
+    state: present
+
+- name: Enable tailscale daemon
+  ansible.builtin.service:
+    name: tailscaled
+    enabled: true
+    state: started
+
+- name: Check tailscale status
+  ansible.builtin.command: tailscale status
+  register: tailscale_status
+  ignore_errors: yes
+
+- name: Authenticate tailscale
+  ansible.builtin.command: tailscale up --authkey="{{ tailscale_authkey }}"
+  when: tailscale_status.rc != 0

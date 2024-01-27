@@ -1,0 +1,9 @@
+---
+- name: Install certbot and set up certificates
+  ansible.builtin.import_tasks: certbot.yml
+
+- name: Install and set up tailscale
+  ansible.builtin.import_tasks: tailscale.yml
+
+- name: Install and set up nginx
+  ansible.builtin.import_tasks: nginx.yml

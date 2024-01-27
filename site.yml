@@ -4,4 +4,4 @@
   become: true
   roles:
     - common
-    - tailscale
+    - reverse-proxy

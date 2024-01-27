@@ -1,0 +1,26 @@
+server {
+    server_name {{ reverse_proxy_server_name }};
+    listen 443 ssl;
+
+    ssl_certificate /etc/letsencrypt/live/{{ reverse_proxy_server_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ reverse_proxy_server_name }}/privkey.pem;
+
+    location / {
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_pass {{ proxy_pass_target }};
+        proxy_buffering off;
+        proxy_ssl_verify off;
+        proxy_redirect off;
+    }
+}
+
+server {
+    server_name {{ reverse_proxy_server_name }};
+    listen 80;
+
+    if ($host = {{ reverse_proxy_server_name }}) {
+        return 301 https://$host$request_uri;
+    }
+
+    return 404;
+}
