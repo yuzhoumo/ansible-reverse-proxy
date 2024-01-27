@@ -1,0 +1,9 @@
+---
+# server name of the reverse proxy
+reverse_proxy_server_name: cloud.ppanda.org
+
+# certbot registration email
+certbot_email: certbot@ppanda.org
+
+# tailnet ip of the reverse proxied service
+proxy_pass_target: https://100.66.201.1:5001

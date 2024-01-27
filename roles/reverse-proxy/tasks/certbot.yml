@@ -1,0 +1,24 @@
+---
+- name: Install certbot
+  community.general.openbsd_pkg:
+    name:
+      - certbot
+    state: present
+
+- name: Check if certs are already installed
+  ansible.builtin.stat:
+    path: /etc/letsencrypt/live/{{ reverse_proxy_server_name }}/privkey.pem
+  register: privkey_file
+
+- name: Ensure nginx is stopped if certs need to be installed
+  ansible.builtin.debug: msg=''
+  notify: stop nginx
+  when: privkey.stat.isreg is not defined
+
+- name: Obtain and install certificate using certbot
+  ansible.builtin.command:
+    cmd: >
+      certbot --standalone certonly -d {{ reverse_proxy_server_name }}
+      --non-interactive --agree-tos -m {{ certbot_email }}
+  notify: start nginx
+  when: privkey.stat.isreg is not defined

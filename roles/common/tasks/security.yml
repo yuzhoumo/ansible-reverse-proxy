@@ -1,6 +1,6 @@
 ---
 - name: Configure /etc/doas.conf
-  copy:
+  ansible.builtin.copy:
     dest: /etc/doas.conf
     content: "{{ doas }}"
     owner: root
@@ -8,12 +8,12 @@
     mode: 0644
 
 - name: Create regular user group
-  group:
+  ansible.builtin.group:
     name: "{{ user }}"
     state: present
 
 - name: Create regular user with doas privileges
-  user:
+  ansible.builtin.user:
     name: "{{ user }}"
     group: "{{ user }}"
     password: "{{ user_passwd | password_hash('bcrypt') }}"
@@ -22,17 +22,17 @@
     shell: "{{ user_shell }}"
 
 - name: Ensure authorized keys for remote user is installed
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ user }}"
     key: "{{ ssh_pub_key }}"
 
 - name: Ensure authorized key for root user is installed
-  authorized_key:
+  ansible.posix.authorized_key:
     user: root
     key: "{{ ssh_pub_key }}"
 
 - name: Set SSH port number
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: 'Port '
     line: 'Port {{ ssh_port }}'
@@ -41,7 +41,7 @@
     - restart sshd
 
 - name: Disable SSH root login
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?PermitRootLogin'
     line: 'PermitRootLogin no'
@@ -49,7 +49,7 @@
     - restart sshd
 
 - name: Disable SSH password authentication
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?PasswordAuthentication'
     line: 'PasswordAuthentication no'
@@ -57,7 +57,7 @@
     - restart sshd
 
 - name: Configure pf firewall
-  template:
+  ansible.builtin.template:
     src: templates/pf.conf.j2
     dest: /etc/pf.conf
     owner: root
