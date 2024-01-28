@@ -1,6 +1,12 @@
 ---
 - hosts: cloud.ppanda.org
   become: true
+  vars:
+    ansible_user: "{{ user }}"
+    ansible_become_method: doas
+    ansible_become_pass: "{{ user_passwd }}"
+    ansible_port: "{{ ssh_port }}"
   roles:
     - common
     - reverse-proxy
+    - firewall

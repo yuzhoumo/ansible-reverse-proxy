@@ -1,0 +1,22 @@
+---
+- name: Configure /etc/doas.conf
+  ansible.builtin.copy:
+    src: files/doas.conf
+    dest: /etc/doas.conf
+    owner: root
+    group: wheel
+    mode: 0644
+
+- name: Create regular user group
+  ansible.builtin.group:
+    name: "{{ user }}"
+    state: present
+
+- name: Create regular user with doas privileges
+  ansible.builtin.user:
+    name: "{{ user }}"
+    group: "{{ user }}"
+    password: "{{ user_passwd | password_hash('bcrypt') }}"
+    groups: wheel
+    append: true
+    shell: "{{ user_shell }}"

@@ -31,15 +31,19 @@ block in quick on egress from <martians> to any
 block return out quick on egress from any to <martians>
 block all
 
+{% if pf_enable_ssh %}
 # SSH
 # Add brute force hosts (5 attempts within 3 seconds) to the bruteforce table.
 pass in log on $wan0 proto tcp to port { {{ ssh_port }} } \
     keep state (max-src-conn 15, max-src-conn-rate 5/3, \
         overload <bruteforce> flush global) label ssh-traffic
+{% endif %}
 
+{% if pf_enable_webserver %}
 # HTTP and HTTPS
-pass in on $wan0 proto { tcp, udp } to port 443
 pass in on $wan0 proto tcp to port 80
+pass in on $wan0 proto { tcp, udp } to port 443
+{% endif %}
 
 pass out quick
 

@@ -4,6 +4,3 @@
 
 - name: Run common system tasks
   ansible.builtin.import_tasks: system.yml
-
-- name: Run common security tasks
-  ansible.builtin.import_tasks: security.yml
