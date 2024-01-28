@@ -1,5 +1,5 @@
 ---
-- hosts: cloud.ppanda.org
+- hosts: offworld.ppanda.org
   become: true
   vars:
     ansible_user: root
