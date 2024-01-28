@@ -1,4 +1,9 @@
-# Reverse Proxy
+# Reverse Proxy Setup
+
+This Ansible playbook sets up an Nginx reverse proxy server at the specified
+host. The reverse proxy server acts as an entry point into a Tailscale network
+and proxies web traffic to a specified Tailnet host/port. These configurations
+are intended for use with an OpenBSD host server.
 
 ## Prerequisites
 - OpenBSD server running at specified host name
