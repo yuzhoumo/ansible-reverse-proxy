@@ -1,0 +1,10 @@
+---
+- name: Ensure authorized key for root user is installed
+  ansible.posix.authorized_key:
+    user: root
+    key: "{{ ssh_pub_key }}"
+
+- name: Ensure authorized keys for admin user is installed
+  ansible.posix.authorized_key:
+    user: "{{ user }}"
+    key: "{{ ssh_pub_key }}"

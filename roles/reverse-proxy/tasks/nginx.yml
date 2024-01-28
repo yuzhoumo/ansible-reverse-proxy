@@ -12,6 +12,14 @@
     group: wheel
     mode: 0644
 
+- name: Ensure nginx log directory exists
+  ansible.builtin.file:
+    path: /var/log/nginx
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0644
+
 - name: Setup nginx.conf
   ansible.builtin.template:
     src: templates/nginx.conf.j2

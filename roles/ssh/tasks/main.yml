@@ -1,0 +1,9 @@
+---
+- name: Add non-root administrator user
+  ansible.builtin.import_tasks: add_user.yml
+
+- name: Ensure SSH public keys are installed
+  ansible.builtin.import_tasks: install_keys.yml
+
+- name: Configure SSH daemon
+  ansible.builtin.import_tasks: configure.yml
