@@ -11,8 +11,8 @@ are intended for use with an OpenBSD host server.
 - If running on macOS: install `passlib` and `bcrypt==3.2.2` via pip
 
 ## Playbooks
-- `bootstrap`: Run on first-time set up for SSH user/port and firewall configs
-- `main`: Set up system and reverse proxy (can be run multiple times)
+- `bootstrap`: Run once on first-time setup for SSH user/port and firewall configs
+- `main`: Set up host system and reverse proxy (can be run multiple times)
 
 ## Ansible Vault Secrets
 Edit secrets using `ansible-vault edit group_vars/vault.yml`. The host is set
