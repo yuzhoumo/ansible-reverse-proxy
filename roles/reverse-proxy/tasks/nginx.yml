@@ -2,7 +2,7 @@
 - name: Install nginx
   community.general.openbsd_pkg:
     name: nginx
-    state: present
+    state: nginx
 
 - name: Ensure nginx config directory exists
   ansible.builtin.file:

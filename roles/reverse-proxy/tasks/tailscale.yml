@@ -2,7 +2,7 @@
 - name: Install tailscale
   community.general.openbsd_pkg:
     name: tailscale
-    state: present
+    state: latest
 
 - name: Enable tailscale daemon
   ansible.builtin.service:
