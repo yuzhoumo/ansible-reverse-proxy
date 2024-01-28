@@ -1,6 +1,5 @@
-# Initial server setup
 ---
-- hosts: sepulveda
+- hosts: cloud.ppanda.org
   become: true
   roles:
     - common

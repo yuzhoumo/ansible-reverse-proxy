@@ -1,0 +1,25 @@
+---
+- name: Set static hostname
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Add IPv4 FQDN to /etc/hosts
+  ansible.builtin.lineinfile:
+    dest: /etc/hosts
+    regexp: '^127\.0\.0\.1'
+    line: "127.0.0.1 {{ inventory_hostname }}"
+    state: present
+
+- name: Add IPv6 FQDN to /etc/hosts
+  ansible.builtin.lineinfile:
+    dest: /etc/hosts
+    regexp: '^\:\:1'
+    line: "::1 {{ inventory_hostname }}"
+    state: present
+
+- name: Add FQDN to /etc/myname
+  ansible.builtin.lineinfile:
+    dest: /etc/myname
+    regexp: '^(.*)'
+    line: "{{ inventory_hostname }}"
+    state: present
