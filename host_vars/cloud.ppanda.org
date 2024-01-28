@@ -2,6 +2,18 @@
 ansible_become: true
 ansible_python_interpreter: /usr/local/bin/python3
 
+# enable ports in pf firewall
+pf_enable_ssh: true
+pf_enable_webserver: true
+
+# user configs for non-root admin
+user: "{{ vault_user }}"
+user_passwd: "{{ vault_user_passwd }}"
+user_shell: /bin/ksh
+
+# root user password
+root_passwd: "{{ vault_root_passwd }}"
+
 # server name of the reverse proxy
 reverse_proxy_server_name: "{{ vault_reverse_proxy_server_name }}"
 
@@ -13,18 +25,6 @@ proxy_pass_target: "{{ vault_proxy_pass_target }}"
 
 # authenication key for tailscale
 tailscale_authkey: "{{ vault_tailscale_authkey }}"
-
-# enable ports in pf firewall
-pf_enable_ssh: true
-pf_enable_webserver: true
-
-# root user password
-root_passwd: "{{ vault_root_passwd }}"
-
-# user configs for non-root admin
-user: "{{ vault_user }}"
-user_passwd: "{{ vault_user_passwd }}"
-user_shell: /bin/ksh
 
 # set ssh port and public key
 ssh_pub_key: "{{ vault_ssh_pubkey }}"
