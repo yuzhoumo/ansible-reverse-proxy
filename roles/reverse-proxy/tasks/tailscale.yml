@@ -13,6 +13,7 @@
 - name: Check tailscale status
   ansible.builtin.command: tailscale status
   register: tailscale_status
+  changed_when: false
   ignore_errors: yes
 
 - name: Authenticate tailscale
